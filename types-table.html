@@ -128,29 +128,23 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Reports</h5>
+              <h5 class="card-title">Types</h5>
               <div class="table-responsive">
-                <table id="reportsTable" class="table">
+                <table id="typesTable" class="table">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
+                      <th scope="col">TypeName</th>
                       <th scope="col">HotelID</th>
                       <th scope="col">HotelName</th>
-                      <th scope="col">ReportName</th>
-                      <th scope="col">TypeId</th>
-                      <th scope="col">TypeName</th>
-                      <th scope="col">Columns</th>
-                      <th scope="col">Download</th>
-                      <th scope="col">Upload PDF</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Populate table code  -->
                   </tbody>
                 </table>
+                <button class="btn btn-primary" onclick="createType()">Create Type</button>
               </div>
-              <!-- Button to create a new report -->
-              <button class="btn btn-primary" onclick="createReport()">Create Report</button>
             </div>
           </div>
         </div>
@@ -188,90 +182,77 @@
 
   <script>
     window.onload = function() {
-        loadReports();
+        loadTypes();
     };
 
-    function loadReports() {
+    function loadTypes() {
       var params = new URLSearchParams(window.location.search);
       var hotelId = params.get("hotelId");
-      var typeId = params.get("typeId");
+      var hotelName = params.get("hotelName");
 
       var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-              var reports = JSON.parse(this.responseText);
-              var tableBody = document.querySelector("#reportsTable tbody");
-              reports.forEach(function(report) {
+              var types = JSON.parse(this.responseText);
+              var tableBody = document.querySelector("#typesTable tbody");
+              types.forEach(function(type) {
                 var row = document.createElement("tr");
 
-                // row.addEventListener("click", createExcel.bind(null, report));
+                row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, type.id, type.name));
 
                 var idCell = document.createElement("td");
                 var hotelIdCell = document.createElement("td");
                 var hotelNameCell = document.createElement("td");
-                var nameCell = document.createElement("td");
-                var typeIdCell = document.createElement("td");
                 var typeNameCell = document.createElement("td");
-                var columnsCell = document.createElement("td");
-                var downloadCell = document.createElement("td");
-                var uploadCell = document.createElement("td");
 
-                idCell.textContent = report.id;
-                hotelIdCell.textContent = report.hotelId;
-                hotelNameCell.textContent = report.hotelName;
-                typeIdCell.textContent = report.typeId;
-                typeNameCell.textContent = report.typeName;
-                nameCell.textContent = report.name;
-                columnsCell.textContent = report.columns;
+                idCell.textContent = type.id;
+                hotelIdCell.textContent = type.hotelId;
+                hotelNameCell.textContent = type.hotelName;
+                typeNameCell.textContent = type.name;
 
                 row.appendChild(idCell);
+                row.appendChild(typeNameCell);
                 row.appendChild(hotelIdCell);
                 row.appendChild(hotelNameCell);
-                row.appendChild(typeIdCell);
-                row.appendChild(typeNameCell);
-                row.appendChild(nameCell);
-                row.appendChild(columnsCell);
-                var downloadButton = createDownloadButton(report);
-                downloadCell.appendChild(downloadButton);
-                row.appendChild(downloadCell);
-                var uploadButton = createPdfUploadButton(report);
-                uploadCell.appendChild(uploadButton);
-                row.appendChild(uploadCell);
-
                 tableBody.appendChild(row);
               });
             }
           };
-          xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&typeId=" + encodeURIComponent(typeId), true); // Include the id parameter in the URL
+          xhttp.open("GET", "typesDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
           xhttp.send();
         }
 
-    function createReport() {
+
+        function redirectToReportsTable(hotelId, hotelName, typeId, typeName) {
+
+          var url = "reports-table.html?hotelId=" + encodeURIComponent(hotelId) + "&hotelName=" + encodeURIComponent(hotelName) 
+          + "&typeId=" + encodeURIComponent(typeId) + "&typeName=" + encodeURIComponent(typeName);
+
+          window.location.href = url;
+        }
+
+    function createType() {
       var modalHtml = `
-        <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createTypeModal" tabindex="-1" role="dialog" aria-labelledby="createTypeModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="createReportModalLabel">Create Report</h5>
+                <h5 class="modal-title" id="createTypeModalLabel">Create Type</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form id="createReportForm">
+                <form id="createTypeForm">
                   <div class="form-group">
-                    <label for="reportName">Report Name:</label>
-                    <input type="text" class="form-control" id="reportName" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="columnNames">Column Names (separated by commas):</label>
-                    <input type="text" class="form-control" id="columnNames" required>
+                    <label for="typeName">Type Name:</label>
+                    <input type="text" class="form-control" id="typeName" required>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitCreateReportForm()">Create</button>
+                <button type="button" class="btn btn-primary" onclick="submitCreateTypeForm()">Create</button>
               </div>
             </div>
           </div>
@@ -281,166 +262,41 @@
       // Append the modal HTML to the body
       document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-      // Open the create report modal
-      $('#createReportModal').modal('show');
+      // Open the create type modal
+      $('#createTypeModal').modal('show');
     }
 
-    function submitCreateReportForm() {
-      var reportName = document.getElementById('reportName').value.trim();
-      var columnNames = document.getElementById('columnNames').value.trim();
+    function submitCreateTypeForm() {
+      var typeName = document.getElementById('typeName').value.trim();
 
-      if (reportName === "") {
-        alert("Please enter a valid report name.");
-        return;
-      }
-
-      if (columnNames === "") {
-        alert("Please enter column names separated by commas.");
+      if (typeName === "") {
+        alert("Please enter a valid type name.");
         return;
       }
 
       // Close the modal
-      $('#createReportModal').modal('hide');
+      $('#createTypeModal').modal('hide');
 
-      // Make an AJAX request to insert the new report into the database
+      // Make an AJAX request to insert the new type into the database
       var params = new URLSearchParams(window.location.search);
       var hotelId = params.get("hotelId");
       var hotelName = params.get("hotelName");
-      var typeId = params.get("typeId");
-      var typeName = params.get("typeName");
 
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          // Reload the page to update the table with the new report
+          // Reload the page to update the table with the new type
           location.reload();
         }
       };
-      xhttp.open('POST', 'reportsDatabase.php', true);
+      xhttp.open('POST', 'typesDatabase.php', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(
-        '&name=' + encodeURIComponent(reportName) +
+        '&name=' + encodeURIComponent(typeName) +
         '&hotelId=' + encodeURIComponent(hotelId) +
-        '&hotelName=' + encodeURIComponent(hotelName) +
-        '&typeId=' + encodeURIComponent(typeId) +
-        '&typeName=' + encodeURIComponent(typeName) +
-        '&columnNames=' + encodeURIComponent(columnNames)
+        '&hotelName=' + encodeURIComponent(hotelName)
       );
     }
-
-
-    function createExcel(report) {
-      var columns = report.columns.split(',');
-
-      var worksheetData = [];
-      worksheetData.push(columns); // Add column names as the first row
-      var worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-
-      var workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-
-      var excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-      var blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      var fileName = report.name + '.xlsx';
-
-      if (navigator.msSaveBlob) {
-        // For IE 10+
-        navigator.msSaveBlob(blob, fileName);
-      } else {
-        // For other browsers
-        var link = document.createElement('a');
-        if (link.download !== undefined) {
-          var url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', fileName);
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      }
-    }
-
-    function createPDF(report) {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            var pdfBlob = new Blob([xhr.response], { type: 'application/pdf' });
-            var pdfFileName = report.name + '.pdf';
-            downloadBlob(pdfBlob, pdfFileName);
-          } else {
-            console.error('Error downloading PDF:', xhr.status, xhr.statusText);
-          }
-        }
-      };
-      xhr.open('GET', 'reportsDatabase.php?reportId=' + report.id, true);
-      xhr.responseType = 'blob';
-      xhr.send(null);
-    }
-
-    function downloadBlob(blob, fileName) {
-      var link = document.createElement('a');
-      if (link.download !== undefined) {
-        var url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', fileName);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    }
-
-
-    function createPdfUploadButton(report) {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.multiple = true; // Allow only one file
-        input.addEventListener("change", function(event) {
-          var files = event.target.files;
-          updateReportWithPdf(files, report);
-        });
-        return input;
-      }
-
-
-    function createDownloadButton(report) {
-      var button = document.createElement("button");
-      button.textContent = "Download";
-      button.addEventListener("click", function() {
-        createExcel(report);
-        createPDF(report);
-      });
-      return button;
-    }
-
-    function updateReportWithPdf(files, report) {
-        var formData = new FormData();
-        formData.append("pdf", files[0]); // Assuming you only allow selecting one file
-        
-        var url = "reportsDatabase.php?reportId=" + report.id;
-        
-        fetch(url, {
-          method: "PUT",
-          body: formData,
-          headers: {
-          "Content-Type": "multipart/form-data"
-  }
-        })
-        .then(response => {
-          if (response.ok) {
-            console.log("Report updated with PDF");
-          } else {
-            console.error("Error updating report:", response.status, response.statusText);
-          }
-        })
-        .catch(error => {
-          console.error("Error updating report:", error);
-        });
-      }
-
   </script>
 
 </body>

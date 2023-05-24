@@ -14,20 +14,24 @@ if ($conn->connect_error) {
 }
 
 // Handle creating a new report
-if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['columnNames'])) {
+if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['typeId']) && isset($_POST['typeName']) && isset($_POST['columnNames'])) {
     $reportName = $_POST['name'];
     $hotelId = $_POST['hotelId'];
     $hotelName = $_POST['hotelName'];
+    $typeId = $_POST['typeId'];
+    $typeName = $_POST['typeName'];
     $reportColumns = $_POST['columnNames'];
 
     // Escape the input to prevent SQL injection
     $reportName = $conn->real_escape_string($reportName);
     $hotelId = $conn->real_escape_string($hotelId);
     $hotelName = $conn->real_escape_string($hotelName);
+    $typeId = $conn->real_escape_string($typeId);
+    $typeName = $conn->real_escape_string($typeName);
     $reportColumns = $conn->real_escape_string($reportColumns);
 
     // Insert the new report into the database
-    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, columns) VALUES ('$reportName', '$hotelId', '$hotelName', '$reportColumns')";
+    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, typeId, typeName, columns) VALUES ('$reportName', '$hotelId', '$hotelName', '$typeId', '$typeName', '$reportColumns')";
     if ($conn->query($insertSql) === TRUE) {
         // report inserted successfully
     } else {
@@ -66,10 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 }
 
 
-// Retrieve reports from the database based on the provided id
-if (isset($_GET['hotelId'])) {
+// Retrieve reports from the database based on the provided ids
+if (isset($_GET['hotelId']) && isset($_GET['typeId'])) {
     $hotelId = $_GET['hotelId'];
-    $selectSql = "SELECT id, hotelId, hotelName, name, columns FROM reports WHERE hotelId = $hotelId";
+    $typeId = $_GET['typeId'];
+    $selectSql = "SELECT id, hotelId, hotelName, name, typeId, typeName, columns FROM reports WHERE hotelId = $hotelId AND typeId = $typeId";
 
     $result = $conn->query($selectSql);
 

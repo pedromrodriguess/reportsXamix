@@ -188,7 +188,7 @@
               hotels.forEach(function(hotel) {
                 var row = document.createElement("tr");
 
-                row.addEventListener("click", redirectToReportsTable.bind(null, hotel));
+                row.addEventListener("click", redirectToTypesTable.bind(null, hotel));
 
                 var idCell = document.createElement("td");
                 var nameCell = document.createElement("td");
@@ -206,11 +206,11 @@
           xhttp.send();
         }
 
-        function redirectToReportsTable(hotel) {
+        function redirectToTypesTable(hotel) {
           var id = hotel.id;
           var name = hotel.name;
 
-          var url = "reports-table.html?hotelId=" + encodeURIComponent(id) + "&hotelName=" + encodeURIComponent(name);
+          var url = "types-table.html?hotelId=" + encodeURIComponent(id) + "&hotelName=" + encodeURIComponent(name);
 
           window.location.href = url;
         }
@@ -245,33 +245,33 @@
           modalInstance.show();
         }
 
-function saveHotel() {
-  var hotelNameInput = document.getElementById("hotelNameInput");
-  var hotelName = hotelNameInput.value.trim(); // Trim leading and trailing spaces
+        function saveHotel() {
+          var hotelNameInput = document.getElementById("hotelNameInput");
+          var hotelName = hotelNameInput.value.trim(); // Trim leading and trailing spaces
 
-  // Validate the hotel name
-  if (hotelName === "") {
-    alert("Please enter a valid hotel name.");
-    return;
-  }
+          // Validate the hotel name
+          if (hotelName === "") {
+            alert("Please enter a valid hotel name.");
+            return;
+          }
 
-  // Make an AJAX request to insert the new hotel into the database
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      // Reload the page to update the table with the new hotel
-      location.reload();
-    }
-  };
-  xhttp.open("POST", "hotelDatabase.php", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("name=" + encodeURIComponent(hotelName));
+          // Make an AJAX request to insert the new hotel into the database
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              // Reload the page to update the table with the new hotel
+              location.reload();
+            }
+          };
+          xhttp.open("POST", "hotelDatabase.php", true);
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.send("name=" + encodeURIComponent(hotelName));
 
-  // Close the modal
-  var modal = document.querySelector(".modal");
-  var modalInstance = bootstrap.Modal.getInstance(modal);
-  modalInstance.hide();
-}
+          // Close the modal
+          var modal = document.querySelector(".modal");
+          var modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+        }
       </script>
 
 
