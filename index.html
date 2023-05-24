@@ -216,20 +216,62 @@
         }
   
         function createHotel() {
-          var hotelName = prompt('Enter the hotel name:');
-    
-          // Make an AJAX request to insert the new hotel into the database
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              // Reload the page to update the table with the new hotel
-              location.reload();
-            }
-          };
-          xhttp.open('POST', 'hotelDatabase.php', true);
-          xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-          xhttp.send('&name=' + hotelName);
+          // Create a modal dialog dynamically
+          var modal = document.createElement("div");
+          modal.classList.add("modal");
+          modal.innerHTML = `
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Create Hotel</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="text" id="hotelNameInput" class="form-control" placeholder="Enter the hotel name" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" onclick="saveHotel()">Save</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Append the modal to the body
+          document.body.appendChild(modal);
+
+          // Show the modal
+          var modalInstance = new bootstrap.Modal(modal);
+          modalInstance.show();
         }
+
+function saveHotel() {
+  var hotelNameInput = document.getElementById("hotelNameInput");
+  var hotelName = hotelNameInput.value.trim(); // Trim leading and trailing spaces
+
+  // Validate the hotel name
+  if (hotelName === "") {
+    alert("Please enter a valid hotel name.");
+    return;
+  }
+
+  // Make an AJAX request to insert the new hotel into the database
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // Reload the page to update the table with the new hotel
+      location.reload();
+    }
+  };
+  xhttp.open("POST", "hotelDatabase.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("name=" + encodeURIComponent(hotelName));
+
+  // Close the modal
+  var modal = document.querySelector(".modal");
+  var modalInstance = bootstrap.Modal.getInstance(modal);
+  modalInstance.hide();
+}
       </script>
 
 
