@@ -77,11 +77,14 @@
 
         <li class="nav-item dropdown pe-3">
 
+          
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Pedro Rodrigues</span>
-          </a><!-- End Profile Iamge Icon -->
-        </li><!-- End Profile Nav -->
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+            <span class="d-none d-md-block dropdown-toggle ps-2">José Rodrigues</span>
+          </a>
+          <!-- End Profile Iamge Icon -->
+        <!-- </li> -->
+        <!-- End Profile Nav -->
 
       </ul>
     </nav><!-- End Icons Navigation -->
@@ -126,7 +129,6 @@
                 <table id="hotelsTable" class="table">
                   <thead>
                     <tr>
-                      <th scope="col">ID</th>
                       <th scope="col">Name</th>
                     </tr>
                   </thead>
@@ -190,13 +192,10 @@
 
                 row.addEventListener("click", redirectToTypesTable.bind(null, hotel));
 
-                var idCell = document.createElement("td");
                 var nameCell = document.createElement("td");
   
-                idCell.textContent = hotel.id;
                 nameCell.textContent = hotel.name;
   
-                row.appendChild(idCell);
                 row.appendChild(nameCell);
                 tableBody.appendChild(row);
               });

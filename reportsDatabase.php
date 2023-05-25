@@ -14,13 +14,16 @@ if ($conn->connect_error) {
 }
 
 // Handle creating a new report
-if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['typeId']) && isset($_POST['typeName']) && isset($_POST['columnNames'])) {
+if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['typeId']) && isset($_POST['typeName']) && isset($_POST['date']) && isset($_POST['company']) && isset($_POST['intervention']) && isset($_POST['function'])) {
     $reportName = $_POST['name'];
     $hotelId = $_POST['hotelId'];
     $hotelName = $_POST['hotelName'];
     $typeId = $_POST['typeId'];
     $typeName = $_POST['typeName'];
-    $reportColumns = $_POST['columnNames'];
+    $date = $_POST['date'];
+    $company = $_POST['company'];
+    $intervention = $_POST['intervention'];
+    $function = $_POST['function'];
 
     // Escape the input to prevent SQL injection
     $reportName = $conn->real_escape_string($reportName);
@@ -28,16 +31,20 @@ if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName
     $hotelName = $conn->real_escape_string($hotelName);
     $typeId = $conn->real_escape_string($typeId);
     $typeName = $conn->real_escape_string($typeName);
-    $reportColumns = $conn->real_escape_string($reportColumns);
+    $date = $conn->real_escape_string($date);
+    $company = $conn->real_escape_string($company);
+    $intervention = $conn->real_escape_string($intervention);
+    $function = $conn->real_escape_string($function);
 
     // Insert the new report into the database
-    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, typeId, typeName, columns) VALUES ('$reportName', '$hotelId', '$hotelName', '$typeId', '$typeName', '$reportColumns')";
+    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, typeId, typeName, date, company, intervention, function) VALUES ('$reportName', '$hotelId', '$hotelName', '$typeId', '$typeName', '$date', '$company', '$intervention', '$function')";
     if ($conn->query($insertSql) === TRUE) {
         // report inserted successfully
     } else {
         echo "Error creating report: " . $conn->error;
     }
 }
+
 
 
 // Handle updating a report with a PDF
@@ -74,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 if (isset($_GET['hotelId']) && isset($_GET['typeId'])) {
     $hotelId = $_GET['hotelId'];
     $typeId = $_GET['typeId'];
-    $selectSql = "SELECT id, hotelId, hotelName, name, typeId, typeName, columns FROM reports WHERE hotelId = $hotelId AND typeId = $typeId";
+    $selectSql = "SELECT id, hotelId, hotelName, name, date, company, intervention, function, typeId, typeName FROM reports WHERE hotelId = $hotelId AND typeId = $typeId";
 
     $result = $conn->query($selectSql);
 

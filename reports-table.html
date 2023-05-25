@@ -85,8 +85,8 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Pedro Rodrigues</span>
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+            <span class="d-none d-md-block dropdown-toggle ps-2">José Rodrigues</span>
           </a><!-- End Profile Iamge Icon -->
         </li><!-- End Profile Nav -->
 
@@ -133,13 +133,13 @@
                 <table id="reportsTable" class="table">
                   <thead>
                     <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">HotelID</th>
-                      <th scope="col">HotelName</th>
+                      <th scope="col">Date</th>
                       <th scope="col">ReportName</th>
-                      <th scope="col">TypeId</th>
+                      <th scope="col">Company</th>
+                      <th scope="col">Intervention</th>
+                      <th scope="col">Function</th>
+                      <th scope="col">HotelName</th>
                       <th scope="col">TypeName</th>
-                      <th scope="col">Columns</th>
                       <th scope="col">Download</th>
                       <th scope="col">Upload PDF</th>
                     </tr>
@@ -206,31 +206,31 @@
 
                 // row.addEventListener("click", createExcel.bind(null, report));
 
-                var idCell = document.createElement("td");
-                var hotelIdCell = document.createElement("td");
                 var hotelNameCell = document.createElement("td");
                 var nameCell = document.createElement("td");
-                var typeIdCell = document.createElement("td");
+                var dateCell = document.createElement("td");
+                var companyCell = document.createElement("td");
+                var interventionCell = document.createElement("td");
+                var functionNameCell = document.createElement("td");
                 var typeNameCell = document.createElement("td");
-                var columnsCell = document.createElement("td");
                 var downloadCell = document.createElement("td");
                 var uploadCell = document.createElement("td");
 
-                idCell.textContent = report.id;
-                hotelIdCell.textContent = report.hotelId;
                 hotelNameCell.textContent = report.hotelName;
-                typeIdCell.textContent = report.typeId;
                 typeNameCell.textContent = report.typeName;
                 nameCell.textContent = report.name;
-                columnsCell.textContent = report.columns;
+                dateCell.textContent = report.date;
+                companyCell.textContent = report.company;
+                interventionCell.textContent = report.intervention;
+                functionNameCell.textContent = report.function;
 
-                row.appendChild(idCell);
-                row.appendChild(hotelIdCell);
-                row.appendChild(hotelNameCell);
-                row.appendChild(typeIdCell);
-                row.appendChild(typeNameCell);
+                row.appendChild(dateCell);
                 row.appendChild(nameCell);
-                row.appendChild(columnsCell);
+                row.appendChild(companyCell);
+                row.appendChild(interventionCell);
+                row.appendChild(functionNameCell);
+                row.appendChild(hotelNameCell);
+                row.appendChild(typeNameCell);
                 var downloadButton = createDownloadButton(report);
                 downloadCell.appendChild(downloadButton);
                 row.appendChild(downloadCell);
@@ -246,121 +246,101 @@
           xhttp.send();
         }
 
-    function createReport() {
-      var modalHtml = `
-        <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="createReportModalLabel">Create Report</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form id="createReportForm">
-                  <div class="form-group">
-                    <label for="reportName">Report Name:</label>
-                    <input type="text" class="form-control" id="reportName" required>
+        function createReport() {
+          var modalHtml = `
+            <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="createReportModalLabel">Create Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                  <div class="form-group">
-                    <label for="columnNames">Column Names (separated by commas):</label>
-                    <input type="text" class="form-control" id="columnNames" required>
+                  <div class="modal-body">
+                    <form id="createReportForm">
+                      <div class="form-group">
+                        <label for="reportName">Report Name:</label>
+                        <input type="text" class="form-control" id="reportName" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="reportDate">Date:</label>
+                        <input type="date" class="form-control" id="reportDate" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="company">Company:</label>
+                        <input type="text" class="form-control" id="reportCompany" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="intervention">Intervention:</label>
+                        <input type="text" class="form-control" id="reportIntervention" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="function">Function:</label>
+                        <input type="text" class="form-control" id="reportFunction" required>
+                      </div>
+                    </form>
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitCreateReportForm()">Create</button>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCreateReportForm()">Create</button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      `;
+          `;
 
-      // Append the modal HTML to the body
-      document.body.insertAdjacentHTML('beforeend', modalHtml);
+          // Append the modal HTML to the body
+          document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-      // Open the create report modal
-      $('#createReportModal').modal('show');
-    }
-
-    function submitCreateReportForm() {
-      var reportName = document.getElementById('reportName').value.trim();
-      var columnNames = document.getElementById('columnNames').value.trim();
-
-      if (reportName === "") {
-        alert("Please enter a valid report name.");
-        return;
-      }
-
-      if (columnNames === "") {
-        alert("Please enter column names separated by commas.");
-        return;
-      }
-
-      // Close the modal
-      $('#createReportModal').modal('hide');
-
-      // Make an AJAX request to insert the new report into the database
-      var params = new URLSearchParams(window.location.search);
-      var hotelId = params.get("hotelId");
-      var hotelName = params.get("hotelName");
-      var typeId = params.get("typeId");
-      var typeName = params.get("typeName");
-
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          // Reload the page to update the table with the new report
-          location.reload();
+          // Open the create report modal
+          $('#createReportModal').modal('show');
         }
-      };
-      xhttp.open('POST', 'reportsDatabase.php', true);
-      xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhttp.send(
-        '&name=' + encodeURIComponent(reportName) +
-        '&hotelId=' + encodeURIComponent(hotelId) +
-        '&hotelName=' + encodeURIComponent(hotelName) +
-        '&typeId=' + encodeURIComponent(typeId) +
-        '&typeName=' + encodeURIComponent(typeName) +
-        '&columnNames=' + encodeURIComponent(columnNames)
-      );
-    }
 
+        function submitCreateReportForm() {
+          var reportName = document.getElementById('reportName').value.trim();
+          var reportDate = document.getElementById('reportDate').value;
+          var reportCompany = document.getElementById('reportCompany').value.trim();
+          var reportIntervention = document.getElementById('reportIntervention').value.trim();
+          var reportFunction = document.getElementById('reportFunction').value.trim();
 
-    function createExcel(report) {
-      var columns = report.columns.split(',');
+          if (reportName === "" || reportDate === "" || reportCompany === "" || reportIntervention === "" || reportFunction === "") {
+            alert("Please fill in all the fields.");
+            return;
+          }
 
-      var worksheetData = [];
-      worksheetData.push(columns); // Add column names as the first row
-      var worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+          // Close the modal
+          $('#createReportModal').modal('hide');
 
-      var workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+          // Make an AJAX request to insert the new report into the database
+          var params = new URLSearchParams(window.location.search);
+          var hotelId = params.get("hotelId");
+          var hotelName = params.get("hotelName");
+          var typeId = params.get("typeId");
+          var typeName = params.get("typeName");
 
-      var excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-      var blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      var fileName = report.name + '.xlsx';
-
-      if (navigator.msSaveBlob) {
-        // For IE 10+
-        navigator.msSaveBlob(blob, fileName);
-      } else {
-        // For other browsers
-        var link = document.createElement('a');
-        if (link.download !== undefined) {
-          var url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', fileName);
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // Reload the page to update the table with the new report
+              location.reload();
+            }
+          };
+          xhttp.open('POST', 'reportsDatabase.php', true);
+          xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          xhttp.send(
+            '&name=' + encodeURIComponent(reportName) +
+            '&date=' + encodeURIComponent(reportDate) +
+            '&company=' + encodeURIComponent(reportCompany) +
+            '&intervention=' + encodeURIComponent(reportIntervention) +
+            '&function=' + encodeURIComponent(reportFunction) +
+            '&hotelId=' + encodeURIComponent(hotelId) +
+            '&hotelName=' + encodeURIComponent(hotelName) +
+            '&typeId=' + encodeURIComponent(typeId) +
+            '&typeName=' + encodeURIComponent(typeName)
+          );
         }
-      }
-    }
+
 
     function createPDF(report) {
       var xhr = new XMLHttpRequest();
@@ -410,7 +390,6 @@
       var button = document.createElement("button");
       button.textContent = "Download";
       button.addEventListener("click", function() {
-        createExcel(report);
         createPDF(report);
       });
       return button;

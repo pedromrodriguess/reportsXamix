@@ -85,8 +85,8 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Pedro Rodrigues</span>
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+            <span class="d-none d-md-block dropdown-toggle ps-2">José Rodrigues</span>
           </a><!-- End Profile Iamge Icon -->
         </li><!-- End Profile Nav -->
 
@@ -133,9 +133,7 @@
                 <table id="typesTable" class="table">
                   <thead>
                     <tr>
-                      <th scope="col">ID</th>
                       <th scope="col">TypeName</th>
-                      <th scope="col">HotelID</th>
                       <th scope="col">HotelName</th>
                     </tr>
                   </thead>
@@ -200,19 +198,13 @@
 
                 row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, type.id, type.name));
 
-                var idCell = document.createElement("td");
-                var hotelIdCell = document.createElement("td");
                 var hotelNameCell = document.createElement("td");
                 var typeNameCell = document.createElement("td");
 
-                idCell.textContent = type.id;
-                hotelIdCell.textContent = type.hotelId;
                 hotelNameCell.textContent = type.hotelName;
                 typeNameCell.textContent = type.name;
 
-                row.appendChild(idCell);
                 row.appendChild(typeNameCell);
-                row.appendChild(hotelIdCell);
                 row.appendChild(hotelNameCell);
                 tableBody.appendChild(row);
               });

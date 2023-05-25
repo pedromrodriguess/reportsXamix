@@ -33,12 +33,18 @@ if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName
     }
 }
 
-// Retrieve hotels from the database
-$selectSql = "SELECT id, name, hotelId, hotelName FROM types";
-$result = $conn->query($selectSql);
+// Retrieve types from the database based on the provided ids
+if (isset($_GET['hotelId'])) {
+    $hotelId = $_GET['hotelId'];
+    $selectSql = "SELECT id, name, hotelId, hotelName FROM types WHERE hotelId = $hotelId";
 
-// Return the result as JSON
-echo json_encode($result->fetch_all(MYSQLI_ASSOC));
+    $result = $conn->query($selectSql);
+
+    // Return the result as JSON
+    $reports = $result->fetch_all(MYSQLI_ASSOC);
+
+    echo json_encode($reports);
+}
 
 // Close the database connection
 $conn->close();
