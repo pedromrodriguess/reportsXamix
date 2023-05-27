@@ -2,111 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>XAMIX</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
   <style>
-    tr:hover {
-      background-color: rgb(0, 183, 255);
-      /* Add any other styles you want to apply when hovering over the row */
+    body {
+      visibility: hidden;
     }
   </style>
 
-  <style>
-    /* Custom styles for the table */
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table thead th {
-      background-color: #f8f9fa;
-      border-bottom: 2px solid #dee2e6;
-    }
-
-    .table tbody tr:nth-of-type(odd) {
-      background-color: #f9fafb;
-    }
-
-    .table tbody tr:hover {
-      background-color: #e2e6ea;
-    }
-  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">XAMIX</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item dropdown pe-3">
-
-          
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-            <span class="d-none d-md-block dropdown-toggle ps-2">José Rodrigues</span>
-          </a>
-          <!-- End Profile Iamge Icon -->
-        <!-- </li> -->
-        <!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
-          <i class="bi bi-grid"></i>
-          <span>Reports</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
-
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -147,77 +55,71 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>XAMIX</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by <a href="https://pedromrodrigues.com/">Pedro Rodrigues</a>
-    </div>
-  </footer><!-- End Footer -->
+  <!-- JavaScript code to handle creating a new hotel -->
+  <script>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    window.onload = function () {
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+      // Fetch the content of common.html
+      fetch('common.html')
+        .then(response => response.text())
+        .then(html => {
+          // Insert the common.html content into the head section
+          const head = document.querySelector('head');
+          head.innerHTML += html;
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+          // Insert the common.html content into the body section
+          const body = document.querySelector('body');
+          body.innerHTML += html;
 
-    <!-- JavaScript code to handle creating a new hotel -->
-    <script>
+          // Show the content after the common.html content is loaded
+          body.style.visibility = 'visible';
+        })
+        .catch(error => console.error(error));
 
-      window.onload = function() {
-          loadHotels();
-        };
-  
-        function loadHotels() {
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              var hotels = JSON.parse(this.responseText);
-              var tableBody = document.querySelector("#hotelsTable tbody");
-              
-              hotels.forEach(function(hotel) {
-                var row = document.createElement("tr");
 
-                row.addEventListener("click", redirectToTypesTable.bind(null, hotel));
+      loadHotels();
+    };
 
-                var nameCell = document.createElement("td");
-  
-                nameCell.textContent = hotel.name;
-  
-                row.appendChild(nameCell);
-                tableBody.appendChild(row);
-              });
-            }
-          };
-          xhttp.open("GET", "hotelDatabase.php", true);
-          xhttp.send();
+    function loadHotels() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          var hotels = JSON.parse(this.responseText);
+          var tableBody = document.querySelector("#hotelsTable tbody");
+
+          hotels.forEach(function (hotel) {
+            var row = document.createElement("tr");
+
+            row.addEventListener("click", redirectToTypesTable.bind(null, hotel));
+
+            var nameCell = document.createElement("td");
+
+            nameCell.textContent = hotel.name;
+
+            row.appendChild(nameCell);
+            tableBody.appendChild(row);
+          });
         }
+      };
+      xhttp.open("GET", "hotelDatabase.php", true);
+      xhttp.send();
+    }
 
-        function redirectToTypesTable(hotel) {
-          var id = hotel.id;
-          var name = hotel.name;
+    function redirectToTypesTable(hotel) {
+      var id = hotel.id;
+      var name = hotel.name;
 
-          var url = "systems-table.html?hotelId=" + encodeURIComponent(id) + "&hotelName=" + encodeURIComponent(name);
+      var url = "systems-table.html?hotelId=" + encodeURIComponent(id) + "&hotelName=" + encodeURIComponent(name);
 
-          window.location.href = url;
-        }
-  
-        function createHotel() {
-          // Create a modal dialog dynamically
-          var modal = document.createElement("div");
-          modal.classList.add("modal");
-          modal.innerHTML = `
+      window.location.href = url;
+    }
+
+    function createHotel() {
+      // Create a modal dialog dynamically
+      var modal = document.createElement("div");
+      modal.classList.add("modal");
+      modal.innerHTML = `
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -235,42 +137,42 @@
             </div>
           `;
 
-          // Append the modal to the body
-          document.body.appendChild(modal);
+      // Append the modal to the body
+      document.body.appendChild(modal);
 
-          // Show the modal
-          var modalInstance = new bootstrap.Modal(modal);
-          modalInstance.show();
+      // Show the modal
+      var modalInstance = new bootstrap.Modal(modal);
+      modalInstance.show();
+    }
+
+    function saveHotel() {
+      var hotelNameInput = document.getElementById("hotelNameInput");
+      var hotelName = hotelNameInput.value.trim(); // Trim leading and trailing spaces
+
+      // Validate the hotel name
+      if (hotelName === "") {
+        alert("Please enter a valid hotel name.");
+        return;
+      }
+
+      // Make an AJAX request to insert the new hotel into the database
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          // Reload the page to update the table with the new hotel
+          location.reload();
         }
+      };
+      xhttp.open("POST", "hotelDatabase.php", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("name=" + encodeURIComponent(hotelName));
 
-        function saveHotel() {
-          var hotelNameInput = document.getElementById("hotelNameInput");
-          var hotelName = hotelNameInput.value.trim(); // Trim leading and trailing spaces
-
-          // Validate the hotel name
-          if (hotelName === "") {
-            alert("Please enter a valid hotel name.");
-            return;
-          }
-
-          // Make an AJAX request to insert the new hotel into the database
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              // Reload the page to update the table with the new hotel
-              location.reload();
-            }
-          };
-          xhttp.open("POST", "hotelDatabase.php", true);
-          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xhttp.send("name=" + encodeURIComponent(hotelName));
-
-          // Close the modal
-          var modal = document.querySelector(".modal");
-          var modalInstance = bootstrap.Modal.getInstance(modal);
-          modalInstance.hide();
-        }
-      </script>
+      // Close the modal
+      var modal = document.querySelector(".modal");
+      var modalInstance = bootstrap.Modal.getInstance(modal);
+      modalInstance.hide();
+    }
+  </script>
 
 
 </body>

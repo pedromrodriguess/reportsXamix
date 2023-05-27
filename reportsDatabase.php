@@ -15,6 +15,9 @@ if ($conn->connect_error) {
 
 // Handle creating a new report
 if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['systemId']) && isset($_POST['systemName']) && isset($_POST['date']) && isset($_POST['company']) && isset($_POST['intervention']) && isset($_POST['function'])) {
+   
+    echo "cheguei";
+   
     $reportName = $_POST['name'];
     $hotelId = $_POST['hotelId'];
     $hotelName = $_POST['hotelName'];

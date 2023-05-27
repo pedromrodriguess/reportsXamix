@@ -2,126 +2,18 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>XAMIX</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
   <style>
-    tr:hover {
-      background-color: rgb(0, 183, 255);
-      /* Add any other styles you want to apply when hovering over the row */
+    body {
+      visibility: hidden;
     }
   </style>
 
-  <style>
-    /* Custom styles for the table */
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table thead th {
-      background-color: #f8f9fa;
-      border-bottom: 2px solid #dee2e6;
-    }
-
-    .table tbody tr:nth-of-type(odd) {
-      background-color: #f9fafb;
-    }
-
-    .table tbody tr:hover {
-      background-color: #e2e6ea;
-    }
-
-    .link {
-      cursor: pointer;
-      color: blue;
-      text-decoration: underline;
-    }
-
-    .link:hover {
-      cursor: pointer;
-      color: #0d6efd;
-    }
-  </style>
-
-  <script src="assets/js/sheetjs-github/xlsx.mini.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">XAMIX</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-            <span class="d-none d-md-block dropdown-toggle ps-2">José Rodrigues</span>
-          </a><!-- End Profile Iamge Icon -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
-          <i class="bi bi-grid"></i>
-          <span>Reports</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
-
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -134,7 +26,7 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    
+
     <script>
       function goToSystemsTable() {
         var params = new URLSearchParams(window.location.search);
@@ -178,39 +70,29 @@
         </div>
       </div>
     </section>
-    
+
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>XAMIX</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by <a href="https://pedromrodrigues.com/">Pedro Rodrigues</a>
-    </div>
-  </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-
   <script>
-    window.onload = function() {
-        loadReports();
+    window.onload = function () {
+      // Fetch the content of common.html
+      fetch('common.html')
+        .then(response => response.text())
+        .then(html => {
+          // Insert the common.html content into the head section
+          const head = document.querySelector('head');
+          head.innerHTML += html;
+
+          // Insert the common.html content into the body section
+          const body = document.querySelector('body');
+          body.innerHTML += html;
+
+          // Show the content after the common.html content is loaded
+          body.style.visibility = 'visible';
+        })
+        .catch(error => console.error(error));
+      loadReports();
     };
 
     function loadReports() {
@@ -219,57 +101,57 @@
       var systemId = params.get("systemId");
 
       var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              var reports = JSON.parse(this.responseText);
-              var tableBody = document.querySelector("#reportsTable tbody");
-              reports.forEach(function(report) {
-                var row = document.createElement("tr");
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          var reports = JSON.parse(this.responseText);
+          var tableBody = document.querySelector("#reportsTable tbody");
+          reports.forEach(function (report) {
+            var row = document.createElement("tr");
 
-                // row.addEventListener("click", createExcel.bind(null, report));
+            // row.addEventListener("click", createExcel.bind(null, report));
 
-                var hotelNameCell = document.createElement("td");
-                var nameCell = document.createElement("td");
-                var dateCell = document.createElement("td");
-                var companyCell = document.createElement("td");
-                var interventionCell = document.createElement("td");
-                var functionNameCell = document.createElement("td");
-                var systemNameCell = document.createElement("td");
-                var downloadCell = document.createElement("td");
-                var uploadCell = document.createElement("td");
+            var hotelNameCell = document.createElement("td");
+            var nameCell = document.createElement("td");
+            var dateCell = document.createElement("td");
+            var companyCell = document.createElement("td");
+            var interventionCell = document.createElement("td");
+            var functionNameCell = document.createElement("td");
+            var systemNameCell = document.createElement("td");
+            var downloadCell = document.createElement("td");
+            var uploadCell = document.createElement("td");
 
-                hotelNameCell.textContent = report.hotelName;
-                systemNameCell.textContent = report.systemName;
-                nameCell.textContent = report.name;
-                dateCell.textContent = report.date;
-                companyCell.textContent = report.company;
-                interventionCell.textContent = report.intervention;
-                functionNameCell.textContent = report.function;
+            hotelNameCell.textContent = report.hotelName;
+            systemNameCell.textContent = report.systemName;
+            nameCell.textContent = report.name;
+            dateCell.textContent = report.date;
+            companyCell.textContent = report.company;
+            interventionCell.textContent = report.intervention;
+            functionNameCell.textContent = report.function;
 
-                row.appendChild(dateCell);
-                row.appendChild(nameCell);
-                row.appendChild(companyCell);
-                row.appendChild(interventionCell);
-                row.appendChild(functionNameCell);
-                row.appendChild(hotelNameCell);
-                row.appendChild(systemNameCell);
-                var downloadButton = createDownloadButton(report);
-                downloadCell.appendChild(downloadButton);
-                row.appendChild(downloadCell);
-                var uploadButton = createPdfUploadButton(report);
-                uploadCell.appendChild(uploadButton);
-                row.appendChild(uploadCell);
+            row.appendChild(dateCell);
+            row.appendChild(nameCell);
+            row.appendChild(companyCell);
+            row.appendChild(interventionCell);
+            row.appendChild(functionNameCell);
+            row.appendChild(hotelNameCell);
+            row.appendChild(systemNameCell);
+            var downloadButton = createDownloadButton(report);
+            downloadCell.appendChild(downloadButton);
+            row.appendChild(downloadCell);
+            var uploadButton = createPdfUploadButton(report);
+            uploadCell.appendChild(uploadButton);
+            row.appendChild(uploadCell);
 
-                tableBody.appendChild(row);
-              });
-            }
-          };
-          xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
-          xhttp.send();
+            tableBody.appendChild(row);
+          });
         }
+      };
+      xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
+      xhttp.send();
+    }
 
-        function createReport() {
-          var modalHtml = `
+    function createReport() {
+      var modalHtml = `
             <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -310,61 +192,61 @@
             </div>
           `;
 
-          // Append the modal HTML to the body
-          document.body.insertAdjacentHTML('beforeend', modalHtml);
+      // Append the modal HTML to the body
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-          // Open the create report modal
-          $('#createReportModal').modal('show');
+      // Open the create report modal
+      $('#createReportModal').modal('show');
+    }
+
+    function submitCreateReportForm() {
+      var reportName = document.getElementById('reportName').value.trim();
+      var reportDate = document.getElementById('reportDate').value;
+      var reportCompany = document.getElementById('reportCompany').value.trim();
+      var reportIntervention = document.getElementById('reportIntervention').value.trim();
+      var reportFunction = document.getElementById('reportFunction').value.trim();
+
+      if (reportName === "" || reportDate === "" || reportCompany === "" || reportIntervention === "" || reportFunction === "") {
+        alert("Please fill in all the fields.");
+        return;
+      }
+
+      // Close the modal
+      $('#createReportModal').modal('hide');
+
+      // Make an AJAX request to insert the new report into the database
+      var params = new URLSearchParams(window.location.search);
+      var hotelId = params.get("hotelId");
+      var hotelName = params.get("hotelName");
+      var systemId = params.get("systemId");
+      var systemName = params.get("systemName");
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          // Reload the page to update the table with the new report
+          location.reload();
         }
-
-        function submitCreateReportForm() {
-          var reportName = document.getElementById('reportName').value.trim();
-          var reportDate = document.getElementById('reportDate').value;
-          var reportCompany = document.getElementById('reportCompany').value.trim();
-          var reportIntervention = document.getElementById('reportIntervention').value.trim();
-          var reportFunction = document.getElementById('reportFunction').value.trim();
-
-          if (reportName === "" || reportDate === "" || reportCompany === "" || reportIntervention === "" || reportFunction === "") {
-            alert("Please fill in all the fields.");
-            return;
-          }
-
-          // Close the modal
-          $('#createReportModal').modal('hide');
-
-          // Make an AJAX request to insert the new report into the database
-          var params = new URLSearchParams(window.location.search);
-          var hotelId = params.get("hotelId");
-          var hotelName = params.get("hotelName");
-          var systemId = params.get("systemId");
-          var systemName = params.get("systemName");
-
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              // Reload the page to update the table with the new report
-              location.reload();
-            }
-          };
-          xhttp.open('POST', 'reportsDatabase.php', true);
-          xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-          xhttp.send(
-            '&name=' + encodeURIComponent(reportName) +
-            '&date=' + encodeURIComponent(reportDate) +
-            '&company=' + encodeURIComponent(reportCompany) +
-            '&intervention=' + encodeURIComponent(reportIntervention) +
-            '&function=' + encodeURIComponent(reportFunction) +
-            '&hotelId=' + encodeURIComponent(hotelId) +
-            '&hotelName=' + encodeURIComponent(hotelName) +
-            '&systemId=' + encodeURIComponent(systemId) +
-            '&systemName=' + encodeURIComponent(systemName)
-          );
-        }
+      };
+      xhttp.open('POST', 'reportsDatabase.php', true);
+      xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhttp.send(
+        '&name=' + encodeURIComponent(reportName) +
+        '&date=' + encodeURIComponent(reportDate) +
+        '&company=' + encodeURIComponent(reportCompany) +
+        '&intervention=' + encodeURIComponent(reportIntervention) +
+        '&function=' + encodeURIComponent(reportFunction) +
+        '&hotelId=' + encodeURIComponent(hotelId) +
+        '&hotelName=' + encodeURIComponent(hotelName) +
+        '&systemId=' + encodeURIComponent(systemId) +
+        '&systemName=' + encodeURIComponent(systemName)
+      );
+    }
 
 
     function createPDF(report) {
       var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             var pdfBlob = new Blob([xhr.response], { type: 'application/pdf' });
@@ -395,39 +277,39 @@
 
 
     function createPdfUploadButton(report) {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.multiple = true; // Allow only one file
-        input.addEventListener("change", function(event) {
-          var files = event.target.files;
-          updateReportWithPdf(files, report);
-        });
-        return input;
-      }
+      var input = document.createElement("input");
+      input.type = "file";
+      input.multiple = true; // Allow only one file
+      input.addEventListener("change", function (event) {
+        var files = event.target.files;
+        updateReportWithPdf(files, report);
+      });
+      return input;
+    }
 
 
     function createDownloadButton(report) {
       var button = document.createElement("button");
       button.textContent = "Download";
-      button.addEventListener("click", function() {
+      button.addEventListener("click", function () {
         createPDF(report);
       });
       return button;
     }
 
     function updateReportWithPdf(files, report) {
-        var formData = new FormData();
-        formData.append("pdf", files[0]); // Assuming you only allow selecting one file
-        
-        var url = "reportsDatabase.php?reportId=" + report.id;
-        
-        fetch(url, {
-          method: "PUT",
-          body: formData,
-          headers: {
+      var formData = new FormData();
+      formData.append("pdf", files[0]); // Assuming you only allow selecting one file
+
+      var url = "reportsDatabase.php?reportId=" + report.id;
+
+      fetch(url, {
+        method: "PUT",
+        body: formData,
+        headers: {
           "Content-Type": "multipart/form-data"
-  }
-        })
+        }
+      })
         .then(response => {
           if (response.ok) {
             console.log("Report updated with PDF");
@@ -438,7 +320,7 @@
         .catch(error => {
           console.error("Error updating report:", error);
         });
-      }
+    }
 
   </script>
 
