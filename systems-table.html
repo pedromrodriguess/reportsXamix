@@ -50,7 +50,7 @@
       border-bottom: 2px solid #dee2e6;
     }
 
-    .table tbody tr:nth-of-type(odd) {
+    .table tbody tr:nth-of-system(odd) {
       background-color: #f9fafb;
     }
 
@@ -61,7 +61,6 @@
 
   <script src="assets/js/sheetjs-github/xlsx.mini.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
 </head>
@@ -117,8 +116,8 @@
       <h1>Reports</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Reports</li>
+          <li class="breadcrumb-item"><a href="index.html">Hotels</a></li>
+          <li class="breadcrumb-item">Systems</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -128,12 +127,12 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Types</h5>
+              <h5 class="card-title">Systems</h5>
               <div class="table-responsive">
-                <table id="typesTable" class="table">
+                <table id="systemsTable" class="table">
                   <thead>
                     <tr>
-                      <th scope="col">TypeName</th>
+                      <th scope="col">Name</th>
                       <th scope="col">HotelName</th>
                     </tr>
                   </thead>
@@ -141,7 +140,7 @@
                     <!-- Populate table code  -->
                   </tbody>
                 </table>
-                <button class="btn btn-primary" onclick="createType()">Create Type</button>
+                <button class="btn btn-primary" onclick="createSystem()">Create System</button>
               </div>
             </div>
           </div>
@@ -180,10 +179,10 @@
 
   <script>
     window.onload = function() {
-        loadTypes();
+        loadSystems();
     };
 
-    function loadTypes() {
+    function loadSystems() {
       var params = new URLSearchParams(window.location.search);
       var hotelId = params.get("hotelId");
       var hotelName = params.get("hotelName");
@@ -191,60 +190,58 @@
       var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-              var types = JSON.parse(this.responseText);
-              var tableBody = document.querySelector("#typesTable tbody");
-              types.forEach(function(type) {
+              var systems = JSON.parse(this.responseText);
+              var tableBody = document.querySelector("#systemsTable tbody");
+              systems.forEach(function(system) {
                 var row = document.createElement("tr");
 
-                row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, type.id, type.name));
+                row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, system.id, system.name));
 
                 var hotelNameCell = document.createElement("td");
-                var typeNameCell = document.createElement("td");
+                var systemNameCell = document.createElement("td");
 
-                hotelNameCell.textContent = type.hotelName;
-                typeNameCell.textContent = type.name;
+                hotelNameCell.textContent = system.hotelName;
+                systemNameCell.textContent = system.name;
 
-                row.appendChild(typeNameCell);
+                row.appendChild(systemNameCell);
                 row.appendChild(hotelNameCell);
                 tableBody.appendChild(row);
               });
             }
           };
-          xhttp.open("GET", "typesDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
+          xhttp.open("GET", "systemsDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
           xhttp.send();
         }
 
 
-        function redirectToReportsTable(hotelId, hotelName, typeId, typeName) {
+      function redirectToReportsTable(hotelId, hotelName, systemId, systemName) {
 
-          var url = "reports-table.html?hotelId=" + encodeURIComponent(hotelId) + "&hotelName=" + encodeURIComponent(hotelName) 
-          + "&typeId=" + encodeURIComponent(typeId) + "&typeName=" + encodeURIComponent(typeName);
+        var url = "reports-table.html?hotelId=" + encodeURIComponent(hotelId) + "&hotelName=" + encodeURIComponent(hotelName) 
+        + "&systemId=" + encodeURIComponent(systemId) + "&systemName=" + encodeURIComponent(systemName);
 
-          window.location.href = url;
-        }
+        window.location.href = url;
+      }
 
-    function createType() {
+    function createSystem() {
       var modalHtml = `
-        <div class="modal fade" id="createTypeModal" tabindex="-1" role="dialog" aria-labelledby="createTypeModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createSystemModal" tabindex="-1" role="dialog" aria-labelledby="createSystemModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="createTypeModalLabel">Create Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="createSystemModalLabel">Create System</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form id="createTypeForm">
+                <form id="createSystemForm">
                   <div class="form-group">
-                    <label for="typeName">Type Name:</label>
-                    <input type="text" class="form-control" id="typeName" required>
+                    <label for="systemName">System Name:</label>
+                    <input type="text" class="form-control" id="systemName" required>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitCreateTypeForm()">Create</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitCreateSystemForm()">Create</button>
               </div>
             </div>
           </div>
@@ -254,22 +251,22 @@
       // Append the modal HTML to the body
       document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-      // Open the create type modal
-      $('#createTypeModal').modal('show');
+      // Open the create system modal
+      $('#createSystemModal').modal('show');
     }
 
-    function submitCreateTypeForm() {
-      var typeName = document.getElementById('typeName').value.trim();
+    function submitCreateSystemForm() {
+      var systemName = document.getElementById('systemName').value.trim();
 
-      if (typeName === "") {
-        alert("Please enter a valid type name.");
+      if (systemName === "") {
+        alert("Please enter a valid system name.");
         return;
       }
 
       // Close the modal
-      $('#createTypeModal').modal('hide');
+      $('#createSystemModal').modal('hide');
 
-      // Make an AJAX request to insert the new type into the database
+      // Make an AJAX request to insert the new system into the database
       var params = new URLSearchParams(window.location.search);
       var hotelId = params.get("hotelId");
       var hotelName = params.get("hotelName");
@@ -277,14 +274,14 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          // Reload the page to update the table with the new type
+          // Reload the page to update the table with the new system
           location.reload();
         }
       };
-      xhttp.open('POST', 'typesDatabase.php', true);
+      xhttp.open('POST', 'systemsDatabase.php', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(
-        '&name=' + encodeURIComponent(typeName) +
+        '&name=' + encodeURIComponent(systemName) +
         '&hotelId=' + encodeURIComponent(hotelId) +
         '&hotelName=' + encodeURIComponent(hotelName)
       );

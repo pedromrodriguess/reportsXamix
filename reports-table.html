@@ -57,6 +57,17 @@
     .table tbody tr:hover {
       background-color: #e2e6ea;
     }
+
+    .link {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .link:hover {
+      cursor: pointer;
+      color: #0d6efd;
+    }
   </style>
 
   <script src="assets/js/sheetjs-github/xlsx.mini.js"></script>
@@ -117,11 +128,22 @@
       <h1>Reports</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hotels</a></li>
+          <li class="breadcrumb-item"><a href="#" onclick="goToSystemsTable()">Systems</a></li>
           <li class="breadcrumb-item">Reports</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
+    
+    <script>
+      function goToSystemsTable() {
+        var params = new URLSearchParams(window.location.search);
+        var hotelId = params.get("hotelId");
+        var hotelName = params.get("hotelName");
+        var systemsTableUrl = "systems-table.html?hotelId=" + encodeURIComponent(hotelId) + "&hotelName=" + encodeURIComponent(hotelName);
+        window.location.href = systemsTableUrl;
+      }
+    </script>
 
     <section class="section">
       <div class="row">
@@ -134,12 +156,12 @@
                   <thead>
                     <tr>
                       <th scope="col">Date</th>
-                      <th scope="col">ReportName</th>
+                      <th scope="col">Name</th>
                       <th scope="col">Company</th>
                       <th scope="col">Intervention</th>
                       <th scope="col">Function</th>
                       <th scope="col">HotelName</th>
-                      <th scope="col">TypeName</th>
+                      <th scope="col">SystemName</th>
                       <th scope="col">Download</th>
                       <th scope="col">Upload PDF</th>
                     </tr>
@@ -194,7 +216,7 @@
     function loadReports() {
       var params = new URLSearchParams(window.location.search);
       var hotelId = params.get("hotelId");
-      var typeId = params.get("typeId");
+      var systemId = params.get("systemId");
 
       var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
@@ -212,12 +234,12 @@
                 var companyCell = document.createElement("td");
                 var interventionCell = document.createElement("td");
                 var functionNameCell = document.createElement("td");
-                var typeNameCell = document.createElement("td");
+                var systemNameCell = document.createElement("td");
                 var downloadCell = document.createElement("td");
                 var uploadCell = document.createElement("td");
 
                 hotelNameCell.textContent = report.hotelName;
-                typeNameCell.textContent = report.typeName;
+                systemNameCell.textContent = report.systemName;
                 nameCell.textContent = report.name;
                 dateCell.textContent = report.date;
                 companyCell.textContent = report.company;
@@ -230,7 +252,7 @@
                 row.appendChild(interventionCell);
                 row.appendChild(functionNameCell);
                 row.appendChild(hotelNameCell);
-                row.appendChild(typeNameCell);
+                row.appendChild(systemNameCell);
                 var downloadButton = createDownloadButton(report);
                 downloadCell.appendChild(downloadButton);
                 row.appendChild(downloadCell);
@@ -242,7 +264,7 @@
               });
             }
           };
-          xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&typeId=" + encodeURIComponent(typeId), true); // Include the id parameter in the URL
+          xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
           xhttp.send();
         }
 
@@ -253,9 +275,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="createReportModalLabel">Create Report</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
                     <form id="createReportForm">
@@ -282,7 +302,7 @@
                     </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" onclick="submitCreateReportForm()">Create</button>
                   </div>
                 </div>
@@ -316,8 +336,8 @@
           var params = new URLSearchParams(window.location.search);
           var hotelId = params.get("hotelId");
           var hotelName = params.get("hotelName");
-          var typeId = params.get("typeId");
-          var typeName = params.get("typeName");
+          var systemId = params.get("systemId");
+          var systemName = params.get("systemName");
 
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function () {
@@ -336,8 +356,8 @@
             '&function=' + encodeURIComponent(reportFunction) +
             '&hotelId=' + encodeURIComponent(hotelId) +
             '&hotelName=' + encodeURIComponent(hotelName) +
-            '&typeId=' + encodeURIComponent(typeId) +
-            '&typeName=' + encodeURIComponent(typeName)
+            '&systemId=' + encodeURIComponent(systemId) +
+            '&systemName=' + encodeURIComponent(systemName)
           );
         }
 
