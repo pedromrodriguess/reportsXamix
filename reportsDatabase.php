@@ -37,7 +37,7 @@ if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName
     $function = $conn->real_escape_string($function);
 
     // Insert the new report into the database
-    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, systemId, systemName, date, company, intervention, function) VALUES ('$reportName', '$hotelId', '$hotelName', '$typeId', '$typeName', '$date', '$company', '$intervention', '$function')";
+    $insertSql = "INSERT INTO reports (name, hotelId, hotelName, systemId, systemName, date, company, intervention, function) VALUES ('$reportName', '$hotelId', '$hotelName', '$systemId', '$systemName', '$date', '$company', '$intervention', '$function')";
     if ($conn->query($insertSql) === TRUE) {
         // report inserted successfully
     } else {
