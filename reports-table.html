@@ -54,7 +54,7 @@
                       <th scope="col">Function</th>
                       <th scope="col">HotelName</th>
                       <th scope="col">SystemName</th>
-                      <th scope="col">Download</th>
+                      <th scope="col" class="text-center">Download</th>
                       <th scope="col">Upload PDF</th>
                     </tr>
                   </thead>
@@ -138,7 +138,7 @@
             var downloadButton = createDownloadButton(report);
             downloadCell.appendChild(downloadButton);
             row.appendChild(downloadCell);
-            var uploadButton = createPdfUploadButton(report);
+            var uploadButton = createPdfUploadButton(report, downloadCell);
             uploadCell.appendChild(uploadButton);
             row.appendChild(uploadCell);
 
@@ -250,7 +250,7 @@
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             var pdfBlob = new Blob([xhr.response], { type: 'application/pdf' });
-            var pdfFileName = report.name + '.pdf';
+            var pdfFileName = report.pdfFileName;
             downloadBlob(pdfBlob, pdfFileName);
           } else {
             console.error('Error downloading PDF:', xhr.status, xhr.statusText);
@@ -276,17 +276,29 @@
     }
 
 
-    function createPdfUploadButton(report) {
+    function createPdfUploadButton(report, downloadCell) {
       var input = document.createElement("input");
       input.type = "file";
-      input.multiple = true; // Allow only one file
+      input.style.display = "none";
+
+      var button = document.createElement("input");
+      button.type = "button";
+      button.value = "Upload PDF";
+      button.addEventListener("click", function () {
+        input.click();
+      });
+
       input.addEventListener("change", function (event) {
         var files = event.target.files;
-        updateReportWithPdf(files, report);
+        updateReportWithPdf(files, report, downloadCell); // Pass the downloadCell element
       });
-      return input;
-    }
 
+      var container = document.createElement("div");
+      container.appendChild(input);
+      container.appendChild(button);
+
+      return container;
+    }
 
     function createDownloadButton(report) {
       var button = document.createElement("button");
@@ -294,24 +306,46 @@
       button.addEventListener("click", function () {
         createPDF(report);
       });
-      return button;
+
+      var fileName = report.pdfFileName ? report.pdfFileName : "No PDF saved"; // Check if pdfFile is empty
+
+      var buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.flexDirection = "column";
+      buttonContainer.style.alignItems = "center";
+
+      var fileNameSpan = document.createElement("span");
+      fileNameSpan.textContent = fileName; // Set the file name or "No PDF selected" as the text content of the span
+
+      buttonContainer.appendChild(button);
+      buttonContainer.appendChild(fileNameSpan); // Append the file name span after the download button
+
+      return buttonContainer;
     }
 
-    function updateReportWithPdf(files, report) {
+
+    function updateReportWithPdf(files, report, downloadCell) {
       var formData = new FormData();
       formData.append("pdf", files[0]); // Assuming you only allow selecting one file
 
-      var url = "reportsDatabase.php?reportId=" + report.id;
+      var url = "reportsDatabase.php?reportId=" + report.id + "&fileName=" + encodeURIComponent(files[0].name);
 
       fetch(url, {
         method: "PUT",
         body: formData,
         headers: {
-          "Content-Type": "multipart/form-data"
+          // No need to specify the "Content-Type" header when using FormData
         }
       })
         .then(response => {
           if (response.ok) {
+            // Update the file name below the download button
+            var fileNameSpan = downloadCell.querySelector("span");
+            fileNameSpan.textContent = files[0].name;
+
+            // Update the pdfFileName property of the report object
+            report.pdfFileName = files[0].name;
+
             console.log("Report updated with PDF");
           } else {
             console.error("Error updating report:", response.status, response.statusText);
@@ -321,6 +355,8 @@
           console.error("Error updating report:", error);
         });
     }
+
+
 
   </script>
 

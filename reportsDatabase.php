@@ -16,8 +16,6 @@ if ($conn->connect_error) {
 // Handle creating a new report
 if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName']) && isset($_POST['systemId']) && isset($_POST['systemName']) && isset($_POST['date']) && isset($_POST['company']) && isset($_POST['intervention']) && isset($_POST['function'])) {
    
-    echo "cheguei";
-   
     $reportName = $_POST['name'];
     $hotelId = $_POST['hotelId'];
     $hotelName = $_POST['hotelName'];
@@ -57,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
     if (isset($_GET['reportId']) && $putData !== false) {
         $reportId = $_GET['reportId'];
+        $fileName = $_GET['fileName']; // Get the file name from the URL parameter
 
         // Validate input and ensure the report exists
         $reportId = $conn->real_escape_string($reportId);
@@ -65,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
         if ($result && $result->num_rows > 0) {
             // Update the report in the database
-            $updateSql = "UPDATE reports SET pdfFile = '$putData' WHERE id = $reportId";
+            $updateSql = "UPDATE reports SET pdfFile = '$putData', pdfFileName = '$fileName' WHERE id = $reportId";
             if ($conn->query($updateSql) === TRUE) {
                 echo "Report updated successfully with PDF.";
             } else {
@@ -80,11 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 }
 
 
+
+
 // Retrieve reports from the database based on the provided ids
 if (isset($_GET['hotelId']) && isset($_GET['systemId'])) {
     $hotelId = $_GET['hotelId'];
     $systemId = $_GET['systemId'];
-    $selectSql = "SELECT id, hotelId, hotelName, name, date, company, intervention, function, systemId, systemName FROM reports WHERE hotelId = $hotelId AND systemId = $systemId";
+    $selectSql = "SELECT id, hotelId, hotelName, name, date, company, intervention, function, systemId, systemName, pdfFileName FROM reports WHERE hotelId = $hotelId AND systemId = $systemId";
 
     $result = $conn->query($selectSql);
 
