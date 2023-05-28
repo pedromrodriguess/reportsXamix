@@ -102,7 +102,7 @@
           });
         }
       };
-      xhttp.open("GET", "hotelDatabase.php", true);
+      xhttp.open("GET", "php/hotelDatabase.php", true);
       xhttp.send();
     }
 
@@ -163,7 +163,7 @@
           location.reload();
         }
       };
-      xhttp.open("POST", "hotelDatabase.php", true);
+      xhttp.open("POST", "php/hotelDatabase.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("name=" + encodeURIComponent(hotelName));
 

@@ -104,7 +104,7 @@
           });
         }
       };
-      xhttp.open("GET", "systemsDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
+      xhttp.open("GET", "php/systemsDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
       xhttp.send();
     }
 
@@ -173,7 +173,7 @@
           location.reload();
         }
       };
-      xhttp.open('POST', 'systemsDatabase.php', true);
+      xhttp.open('POST', 'php/systemsDatabase.php', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(
         '&name=' + encodeURIComponent(systemName) +

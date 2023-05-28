@@ -146,7 +146,7 @@
           });
         }
       };
-      xhttp.open("GET", "reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
+      xhttp.open("GET", "php/reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
       xhttp.send();
     }
 
@@ -228,7 +228,7 @@
           location.reload();
         }
       };
-      xhttp.open('POST', 'reportsDatabase.php', true);
+      xhttp.open('POST', 'php/reportsDatabase.php', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(
         '&name=' + encodeURIComponent(reportName) +
@@ -257,7 +257,7 @@
           }
         }
       };
-      xhr.open('GET', 'reportsDatabase.php?reportId=' + report.id, true);
+      xhr.open('GET', 'php/reportsDatabase.php?reportId=' + report.id, true);
       xhr.responseType = 'blob';
       xhr.send(null);
     }
@@ -328,7 +328,7 @@
       var formData = new FormData();
       formData.append("pdf", files[0]); // Assuming you only allow selecting one file
 
-      var url = "reportsDatabase.php?reportId=" + report.id + "&fileName=" + encodeURIComponent(files[0].name);
+      var url = "php/reportsDatabase.php?reportId=" + report.id + "&fileName=" + encodeURIComponent(files[0].name);
 
       fetch(url, {
         method: "PUT",
