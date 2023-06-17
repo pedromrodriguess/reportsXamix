@@ -21,7 +21,7 @@
       <h1>Reports</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Hotels</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hotel: <span id="hotelName"></span></li></a></li>
           <li class="breadcrumb-item">Systems</li>
         </ol>
       </nav>
@@ -38,7 +38,6 @@
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
-                      <th scope="col">HotelName</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -72,6 +71,14 @@
 
           // Show the content after the common.html content is loaded
           body.style.visibility = 'visible';
+
+          // Get the hotel name from the URL parameters
+          const params = new URLSearchParams(window.location.search);
+          const hotelName = params.get("hotelName");
+
+          // Set the hotel name in the breadcrumb
+          const hotelNameElement = document.getElementById('hotelName');
+          hotelNameElement.textContent = hotelName;
         })
         .catch(error => console.error(error));
       loadSystems();
@@ -92,14 +99,11 @@
 
             row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, system.id, system.name));
 
-            var hotelNameCell = document.createElement("td");
             var systemNameCell = document.createElement("td");
 
-            hotelNameCell.textContent = system.hotelName;
             systemNameCell.textContent = system.name;
 
             row.appendChild(systemNameCell);
-            row.appendChild(hotelNameCell);
             tableBody.appendChild(row);
           });
         }

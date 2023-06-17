@@ -6,6 +6,21 @@
     body {
       visibility: hidden;
     }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Adjusts spacing between elements */
+    }
+
+    .search-container .title {
+      margin-right: 10px;
+    }
+
+    .search-container input {
+      width: 200px;
+      margin-left: 10px;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -27,11 +42,15 @@
     </div><!-- End Page Title -->
 
     <section class="section">
+
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Hotels</h5>
+              <div class="search-container">
+                <h5 class="card-title">Hotels</h5>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by hotel name" oninput="searchHotels()" />
+              </div>
               <div class="table-responsive">
                 <table id="hotelsTable" class="table">
                   <thead>
@@ -58,8 +77,9 @@
   <!-- JavaScript code to handle creating a new hotel -->
   <script>
 
-    window.onload = function () {
+    var allHotels = [];
 
+    window.onload = function () {
       // Fetch the content of common.html
       fetch('common.html')
         .then(response => response.text())
@@ -77,8 +97,7 @@
         })
         .catch(error => console.error(error));
 
-
-      loadHotels();
+        loadHotels();
     };
 
     function loadHotels() {
@@ -99,6 +118,9 @@
 
             row.appendChild(nameCell);
             tableBody.appendChild(row);
+
+            allHotels = hotels;
+            searchHotels();
           });
         }
       };
@@ -172,6 +194,32 @@
       var modalInstance = bootstrap.Modal.getInstance(modal);
       modalInstance.hide();
     }
+
+    function searchHotels() {
+      var searchInput = document.getElementById("searchInput");
+      var searchQuery = searchInput.value.trim().toLowerCase();
+
+      var filteredHotels = allHotels.filter(function (hotel) {
+        return hotel.name.toLowerCase().includes(searchQuery);
+      });
+
+      // Clear the table body
+      var tableBody = document.querySelector("#hotelsTable tbody");
+      tableBody.innerHTML = "";
+
+      // Repopulate the table with the filtered hotels
+      filteredHotels.forEach(function (hotel) {
+        var row = document.createElement("tr");
+        row.addEventListener("click", redirectToTypesTable.bind(null, hotel));
+
+        var nameCell = document.createElement("td");
+        nameCell.textContent = hotel.name;
+
+        row.appendChild(nameCell);
+        tableBody.appendChild(row);
+      });
+    }
+
   </script>
 
 

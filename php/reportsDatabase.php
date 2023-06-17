@@ -78,6 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     }
 }
 
+// Handle deleting a report
+if (isset($_GET['reportId'])) {
+    $reportId = $_GET['reportId'];
+    
+    // Escape the input to prevent SQL injection
+    $reportId = $conn->real_escape_string($reportId);
+    
+    // Delete the report from the database
+    $sql = "DELETE FROM reports WHERE id = '$reportId'";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Report deleted successfully";
+    } else {
+        echo "Error deleting report: " . $conn->error;
+    }
+}
 
 
 
