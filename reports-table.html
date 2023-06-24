@@ -6,6 +6,21 @@
     body {
       visibility: hidden;
     }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Adjusts spacing between elements */
+    }
+
+    .search-container .title {
+      margin-right: 10px;
+    }
+
+    .search-container input {
+      width: 200px;
+      margin-left: 10px;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -42,7 +57,10 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Reports</h5>
+              <div class="search-container">
+                <h5 class="card-title">Reports</h5>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by report name" oninput="searchReports()" />
+              </div>
               <div class="table-responsive">
                 <table id="reportsTable" class="table">
                   <thead>
@@ -77,6 +95,9 @@
   </main><!-- End #main -->
 
   <script>
+
+    var allReports = [];
+
     window.onload = function () {
       // Fetch the content of common.html
       fetch('common.html')
@@ -120,58 +141,66 @@
         if (this.readyState == 4 && this.status == 200) {
           var reports = JSON.parse(this.responseText);
           var tableBody = document.querySelector("#reportsTable tbody");
+
           reports.forEach(function (report) {
-            var row = document.createElement("tr");
-
-            var nameCell = document.createElement("td");
-            var dateCell = document.createElement("td");
-            var companyCell = document.createElement("td");
-            var interventionCell = document.createElement("td");
-            var functionNameCell = document.createElement("td");
-            var downloadCell = document.createElement("td");
-            var uploadCell = document.createElement("td");
-            var proposal = document.createElement("td");
-            var approval = document.createElement("td");
-            var invoicing = document.createElement("td");
-
-            nameCell.textContent = report.name;
-            dateCell.textContent = report.date;
-            companyCell.textContent = report.company;
-            interventionCell.textContent = report.intervention;
-            functionNameCell.textContent = report.function;
-            proposal.innerHTML = `<input type="date" value="${report.proposal}" onchange="updateReportDate(this.value, 'proposal', ${report.id})">`;
-            approval.innerHTML = `<input type="date" value="${report.approval}" onchange="updateReportDate(this.value, 'approval', ${report.id})">`;
-            invoicing.innerHTML = `<input type="date" value="${report.invoicing}" onchange="updateReportDate(this.value, 'invoicing', ${report.id})">`;
-
-            row.appendChild(dateCell);
-            row.appendChild(nameCell);
-            row.appendChild(companyCell);
-            row.appendChild(interventionCell);
-            row.appendChild(functionNameCell);
-            
-            row.appendChild(proposal);
-            row.appendChild(approval);
-            row.appendChild(invoicing);
-
-            var downloadButton = createDownloadButton(report);
-            downloadCell.appendChild(downloadButton);
-            row.appendChild(downloadCell);
-            var uploadButton = createPdfUploadButton(report, downloadCell);
-            uploadCell.appendChild(uploadButton);
-            row.appendChild(uploadCell);
-
-
-            var deleteCell = document.createElement("td");
-            var deleteButton = createDeleteButton(report.id);
-            deleteCell.appendChild(deleteButton);
-            row.appendChild(deleteCell);
-
+            var row = createReportRow(report);
             tableBody.appendChild(row);
+
+            allReports = reports;
+            searchReports();
           });
         }
       };
       xhttp.open("GET", "php/reportsDatabase.php?hotelId=" + hotelId + "&systemId=" + encodeURIComponent(systemId), true); // Include the id parameter in the URL
       xhttp.send();
+    }
+
+    function createReportRow(report) {
+      var row = document.createElement("tr");
+
+      var nameCell = document.createElement("td");
+      var dateCell = document.createElement("td");
+      var companyCell = document.createElement("td");
+      var interventionCell = document.createElement("td");
+      var functionNameCell = document.createElement("td");
+      var downloadCell = document.createElement("td");
+      var uploadCell = document.createElement("td");
+      var proposal = document.createElement("td");
+      var approval = document.createElement("td");
+      var invoicing = document.createElement("td");
+
+      nameCell.textContent = report.name;
+      dateCell.textContent = report.date;
+      companyCell.textContent = report.company;
+      interventionCell.textContent = report.intervention;
+      functionNameCell.textContent = report.function;
+      proposal.innerHTML = `<input type="date" value="${report.proposal}" onchange="updateReportDate(this.value, 'proposal', ${report.id})">`;
+      approval.innerHTML = `<input type="date" value="${report.approval}" onchange="updateReportDate(this.value, 'approval', ${report.id})">`;
+      invoicing.innerHTML = `<input type="date" value="${report.invoicing}" onchange="updateReportDate(this.value, 'invoicing', ${report.id})">`;
+
+      row.appendChild(dateCell);
+      row.appendChild(nameCell);
+      row.appendChild(companyCell);
+      row.appendChild(interventionCell);
+      row.appendChild(functionNameCell);
+
+      row.appendChild(proposal);
+      row.appendChild(approval);
+      row.appendChild(invoicing);
+
+      var downloadButton = createDownloadButton(report);
+      downloadCell.appendChild(downloadButton);
+      row.appendChild(downloadCell);
+      var uploadButton = createPdfUploadButton(report, downloadCell);
+      uploadCell.appendChild(uploadButton);
+      row.appendChild(uploadCell);
+
+      var deleteCell = document.createElement("td");
+      var deleteButton = createDeleteButton(report.id);
+      deleteCell.appendChild(deleteButton);
+      row.appendChild(deleteCell);
+
+      return row;
     }
 
     function createReport() {
@@ -427,6 +456,25 @@
         '&newDate=' + encodeURIComponent(newDate)
       );
   }
+
+  function searchReports() {
+      var searchInput = document.getElementById("searchInput");
+      var searchQuery = searchInput.value.trim().toLowerCase();
+
+      var filteredReports = allReports.filter(function (report) {
+        return report.name.toLowerCase().includes(searchQuery);
+      });
+
+      // Clear the table body
+      var tableBody = document.querySelector("#reportsTable tbody");
+      tableBody.innerHTML = "";
+
+      // Repopulate the table with the filtered reports
+      filteredReports.forEach(function (report) {
+        var row = createReportRow(report);
+        tableBody.appendChild(row);
+      });
+    }
 
   </script>
 
