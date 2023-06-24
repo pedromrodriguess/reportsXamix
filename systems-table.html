@@ -6,6 +6,21 @@
     body {
       visibility: hidden;
     }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Adjusts spacing between elements */
+    }
+
+    .search-container .title {
+      margin-right: 10px;
+    }
+
+    .search-container input {
+      width: 200px;
+      margin-left: 10px;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -32,12 +47,16 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Systems</h5>
+              <div class="search-container">
+                <h5 class="card-title">System</h5>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by system name" oninput="searchSystems()" />
+              </div>
               <div class="table-responsive">
                 <table id="systemsTable" class="table">
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -56,6 +75,9 @@
   </main><!-- End #main -->
 
   <script>
+
+    var allSystems = [];
+
     window.onload = function () {
       // Fetch the content of common.html
       fetch('common.html')
@@ -94,22 +116,40 @@
         if (this.readyState == 4 && this.status == 200) {
           var systems = JSON.parse(this.responseText);
           var tableBody = document.querySelector("#systemsTable tbody");
+
           systems.forEach(function (system) {
-            var row = document.createElement("tr");
-
-            row.addEventListener("click", redirectToReportsTable.bind(null, hotelId, hotelName, system.id, system.name));
-
-            var systemNameCell = document.createElement("td");
-
-            systemNameCell.textContent = system.name;
-
-            row.appendChild(systemNameCell);
+            var row = createSystemRow(system);
             tableBody.appendChild(row);
+
+            allSystems = systems;
+            searchSystems();
           });
         }
       };
       xhttp.open("GET", "php/systemsDatabase.php?hotelId=" + hotelId, true); // Include the id parameter in the URL
       xhttp.send();
+    }
+
+    function createSystemRow(system) {
+      var row = document.createElement("tr");
+
+      var systemNameCell = document.createElement("td");
+
+      systemNameCell.textContent = system.name;
+      row.appendChild(systemNameCell);
+
+      var deleteCell = document.createElement("td");
+      var deleteButton = createDeleteButton(system.id);
+      deleteCell.appendChild(deleteButton);
+      row.appendChild(deleteCell);
+
+      row.addEventListener("click", function(event) {
+        if (event.target !== deleteButton) {
+          redirectToReportsTable(system.hotelId, system.hotelName, system.id, system.name);
+        }
+      });
+
+      return row;
     }
 
 
@@ -185,6 +225,56 @@
         '&hotelName=' + encodeURIComponent(hotelName)
       );
     }
+
+    function searchSystems() {
+      var searchInput = document.getElementById("searchInput");
+      var searchQuery = searchInput.value.trim().toLowerCase();
+
+      var filteredSystems = allSystems.filter(function (system) {
+        return system.name.toLowerCase().includes(searchQuery);
+      });
+
+      // Clear the table body
+      var tableBody = document.querySelector("#systemsTable tbody");
+      tableBody.innerHTML = "";
+
+      // Repopulate the table with the filtered systems
+      filteredSystems.forEach(function (system) {
+        var row = createSystemRow(system);
+        tableBody.appendChild(row);
+      });
+    }
+
+    function createDeleteButton(systemId) {
+      var button = document.createElement("button");
+      button.textContent = "Delete";
+      button.style.backgroundColor = "#C07C6D";
+      button.style.color = "white";
+      button.style.border = "none";
+      button.style.padding = "5px 10px";
+      button.style.fontSize = "12px";
+      button.style.borderRadius = "3px";
+      button.style.cursor = "pointer";
+      button.addEventListener("click", function () {
+        deleteSystem(systemId);
+      });
+      return button;
+    }
+
+    function deleteSystem(systemId) {
+    if (confirm("Are you sure you want to delete this system?")) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          // Reload the page to update the table after deletion
+          location.reload();
+        }
+      };
+      xhttp.open("DELETE", "php/systemsDatabase.php?systemId=" + systemId, true);
+      xhttp.send();
+    }
+  }
+
   </script>
 
 </body>

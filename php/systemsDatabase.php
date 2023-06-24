@@ -46,6 +46,25 @@ if (isset($_GET['hotelId'])) {
     echo json_encode($reports);
 }
 
+// Handle deleting a system
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    if (isset($_GET['systemId'])) {
+        $systemId = $_GET['systemId'];
+        
+        // Escape the input to prevent SQL injection
+        $systemId = $conn->real_escape_string($systemId);
+        
+        // Delete the system from the database
+        $sql = "DELETE FROM systems WHERE id = '$systemId'";
+        
+        if ($conn->query($sql) === TRUE) {
+            echo "System deleted successfully";
+        } else {
+            echo "Error deleting system: " . $conn->error;
+        }
+    }
+}
+
 // Close the database connection
 $conn->close();
 ?>
