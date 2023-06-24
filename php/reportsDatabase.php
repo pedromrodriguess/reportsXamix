@@ -48,13 +48,49 @@ if (isset($_POST['name']) && isset($_POST['hotelId']) && isset($_POST['hotelName
 
 
 
-// Handle updating a report with a PDF
+   // Handle updating a report with a PDF or date
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    $putData = file_get_contents("php://input");
-    $putData = $conn->real_escape_string($putData); // Sanitize the data
+    parse_str(file_get_contents("php://input"), $putData);
+    echo "here1";
+    // Debug output
+    echo "field: " . $putData['field'] . "\n";
+    echo "newDate: " . $putData['newDate'] . "\n";
+    echo "reportId: " . $putData['reportId'] . "\n";
 
-    if (isset($_GET['reportId']) && $putData !== false) {
-        $reportId = $_GET['reportId'];
+    if (isset($putData['reportId'])) {
+        $reportId = $putData['reportId'];
+        echo "here2";
+
+        // Check if the request is for updating a date field
+        if (isset($putData['field']) && isset($putData['newDate'])) {
+            $field = $putData['field'];
+            $newDate = $putData['newDate'];
+            echo "here3";
+
+            // Validate input and ensure the report exists
+            $reportId = $conn->real_escape_string($reportId);
+            $selectSql = "SELECT id FROM reports WHERE id = $reportId";
+            $result = $conn->query($selectSql);
+
+            if ($result && $result->num_rows > 0) {
+                echo "here4";
+                // Update the report date in the database
+                $updateSql = "UPDATE reports SET $field = '$newDate' WHERE id = $reportId";
+                if ($conn->query($updateSql) === TRUE) {
+                    echo "Report date updated successfully.";
+                } else {
+                    echo "Error updating report date: " . $conn->error;
+                }
+            } else {
+                echo "Invalid reportId parameter.";
+            }
+        } else {
+            echo "Missing or invalid field and newDate parameters.";
+        }
+    } else {
+        // Handle updating a report with a PDF
+        $putData = $conn->real_escape_string(file_get_contents("php://input")); // Sanitize the data
+
         $fileName = $_GET['fileName']; // Get the file name from the URL parameter
 
         // Validate input and ensure the report exists
@@ -73,35 +109,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         } else {
             echo "Invalid reportId parameter.";
         }
-    } else {
-        echo "Invalid request parameters or PDF data.";
     }
 }
 
+    
 // Handle deleting a report
-if (isset($_GET['reportId'])) {
-    $reportId = $_GET['reportId'];
-    
-    // Escape the input to prevent SQL injection
-    $reportId = $conn->real_escape_string($reportId);
-    
-    // Delete the report from the database
-    $sql = "DELETE FROM reports WHERE id = '$reportId'";
-    
-    if ($conn->query($sql) === TRUE) {
-        echo "Report deleted successfully";
-    } else {
-        echo "Error deleting report: " . $conn->error;
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    if (isset($_GET['reportId'])) {
+        $reportId = $_GET['reportId'];
+        
+        // Escape the input to prevent SQL injection
+        $reportId = $conn->real_escape_string($reportId);
+        
+        // Delete the report from the database
+        $sql = "DELETE FROM reports WHERE id = '$reportId'";
+        
+        if ($conn->query($sql) === TRUE) {
+            echo "Report deleted successfully";
+        } else {
+            echo "Error deleting report: " . $conn->error;
+        }
     }
 }
-
 
 
 // Retrieve reports from the database based on the provided ids
 if (isset($_GET['hotelId']) && isset($_GET['systemId'])) {
     $hotelId = $_GET['hotelId'];
     $systemId = $_GET['systemId'];
-    $selectSql = "SELECT id, hotelId, hotelName, name, date, company, intervention, function, systemId, systemName, pdfFileName FROM reports WHERE hotelId = $hotelId AND systemId = $systemId";
+    $selectSql = "SELECT id, hotelId, hotelName, name, date, company, intervention, function, systemId, systemName, pdfFileName, proposal, approval, invoicing FROM reports WHERE hotelId = $hotelId AND systemId = $systemId";
 
     $result = $conn->query($selectSql);
 
@@ -135,9 +171,6 @@ if (isset($_GET['hotelId']) && isset($_GET['systemId'])) {
     }
 
     // Close the database connection
-    $conn->close();
-} else {
-    echo "Invalid request parameters.";
     $conn->close();
 }
 ?>

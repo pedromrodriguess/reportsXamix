@@ -52,9 +52,12 @@
                       <th scope="col">Company</th>
                       <th scope="col">Intervention</th>
                       <th scope="col">Function</th>
-                      <th scope="col" class="text-center">Download</th>
-                      <th scope="col" class="text-center">Upload PDF</th>
-                      <th scope="col" class="text-center">Delete</th>
+                      <th scope="col">Proposal</th>
+                      <th scope="col">Approval</th>
+                      <th scope="col">Invoicing</th>
+                      <th scope="col">Download</th>
+                      <th scope="col">Upload PDF</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -127,24 +130,36 @@
             var functionNameCell = document.createElement("td");
             var downloadCell = document.createElement("td");
             var uploadCell = document.createElement("td");
+            var proposal = document.createElement("td");
+            var approval = document.createElement("td");
+            var invoicing = document.createElement("td");
 
             nameCell.textContent = report.name;
             dateCell.textContent = report.date;
             companyCell.textContent = report.company;
             interventionCell.textContent = report.intervention;
             functionNameCell.textContent = report.function;
+            proposal.innerHTML = `<input type="date" value="${report.proposal}" onchange="updateReportDate(this.value, 'proposal', ${report.id})">`;
+            approval.innerHTML = `<input type="date" value="${report.approval}" onchange="updateReportDate(this.value, 'approval', ${report.id})">`;
+            invoicing.innerHTML = `<input type="date" value="${report.invoicing}" onchange="updateReportDate(this.value, 'invoicing', ${report.id})">`;
 
             row.appendChild(dateCell);
             row.appendChild(nameCell);
             row.appendChild(companyCell);
             row.appendChild(interventionCell);
             row.appendChild(functionNameCell);
+            
+            row.appendChild(proposal);
+            row.appendChild(approval);
+            row.appendChild(invoicing);
+
             var downloadButton = createDownloadButton(report);
             downloadCell.appendChild(downloadButton);
             row.appendChild(downloadCell);
             var uploadButton = createPdfUploadButton(report, downloadCell);
             uploadCell.appendChild(uploadButton);
             row.appendChild(uploadCell);
+
 
             var deleteCell = document.createElement("td");
             var deleteButton = createDeleteButton(report.id);
@@ -316,12 +331,11 @@
         createPDF(report);
       });
 
-      var fileName = report.pdfFileName ? report.pdfFileName : "No PDF saved"; // Check if pdfFile is empty
+      var fileName = report.pdfFileName ? report.pdfFileName.substring(0, 8) : "No PDF saved"; // Check if pdfFile is empty
 
       var buttonContainer = document.createElement("div");
       buttonContainer.style.display = "flex";
       buttonContainer.style.flexDirection = "column";
-      buttonContainer.style.alignItems = "center";
 
       var fileNameSpan = document.createElement("span");
       fileNameSpan.textContent = fileName; // Set the file name or "No PDF selected" as the text content of the span
@@ -396,6 +410,22 @@
       xhttp.open("DELETE", "php/reportsDatabase.php?reportId=" + reportId, true);
       xhttp.send();
     }
+  }
+
+  function updateReportDate(newDate, field, reportId) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log("Report date updated successfully");
+      }
+    };
+    xhttp.open('PUT', 'php/reportsDatabase.php', true);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhttp.send(
+        '&reportId=' + encodeURIComponent(reportId) +
+        '&field=' + encodeURIComponent(field) +
+        '&newDate=' + encodeURIComponent(newDate)
+      );
   }
 
   </script>
